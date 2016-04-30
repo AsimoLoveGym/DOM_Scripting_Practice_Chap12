@@ -45,7 +45,7 @@ function highlightPage(){
             if(window.location.href.indexOf(linkurl)!= -1){
                 links[i].className = "here";
                 var linktext = links[i].lastChild.nodeValue.toLowerCase();
-                document.body.setAttribute("id",linktext)
+                document.body.setAttribute("id",linktext);//之前在这里漏了一个；
             }
         }
     }
@@ -91,13 +91,15 @@ function moveElement(elementID,final_x,final_y,interval){
     elem.movement = setTimeout(repeat,interval);
 }
 
-function pprepareSlideshow(){
+function prepareSlideshow(){
     if(!document.getElementsByTagName) return false;
     if(!document.getElementById) return false;
     if(!document.getElementById("intro")) return false;
     var intro = document.getElementById("intro");
     var slideshow = document.createElement("div");
     slideshow.setAttribute("id","slideshow");
+
+//这里少一个frame,frame并不是必须的
     var preview = document.createElement("img");
     preview.setAttribute("src","images/slideshow.gif");
     preview.setAttribute("alt","a glimpse of what awaits you");
@@ -105,7 +107,8 @@ function pprepareSlideshow(){
     slideshow.appendChild(preview);
     insertAfter(slideshow,intro);
 
-    var links = intro.getElementsByTagName("a");
+    //var links = intro.getElementsByTagName("a");//这里有不同, intro的话只会scan后面的；前面ul里面的不会扫到
+    var links = document.getElementsByTagName("a");
     var destination;
     for (var i=0;i<links.length;i++){
         links[i].onmouseover = function(){
@@ -129,10 +132,14 @@ function pprepareSlideshow(){
     }
 }
 
+//function loadEvents() {
+//  // home
+//  prepareSlideshow();
+//}
 
 addLoadEvent(highlightPage);
-addLoadEvent(pprepareSlideshow);
-
+//addLoadEvent(prepareSlideshow);
+addLoadEvent(prepareSlideshow);
 
 
 
